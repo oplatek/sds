@@ -1,2 +1,3 @@
-# sds
-Statistical Dialogue Systems - workshop
+# Statistical Dialogue Systems
+
+This repository contains my homeworks for Statistical Dialogue Systems.
