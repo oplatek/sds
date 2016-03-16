@@ -10,8 +10,6 @@ One should have `python3` with `speech_recognition` package (and it's dependenci
 ## Google
 
 ```
-$ sclite -r truth_nr.txt -h google_nr.txt -i rm
-
 [petr@hellmut result (master ✗)]$ sclite -r truth.txt -h google.txt -i rm
 sclite: 2.10 TK Version 1.3
 Begin alignment of Ref File: 'truth_nr.txt' and Hyp File: 'google_nr.txt'
