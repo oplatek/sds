@@ -12,7 +12,7 @@ One should have `python3` with `speech_recognition` package (and it's dependenci
 ```
 $ sclite -r truth_nr.txt -h google_nr.txt -i rm
 
-[petr@hellmut result (master ✗)]$ sclite -r truth_nr.txt -h google_nr.txt -i rm 
+[petr@hellmut result (master ✗)]$ sclite -r truth.txt -h google.txt -i rm
 sclite: 2.10 TK Version 1.3
 Begin alignment of Ref File: 'truth_nr.txt' and Hyp File: 'google_nr.txt'
 Error: extract_speaker can't locate RM id (1)
@@ -20,32 +20,33 @@ Error: extract_speaker can't locate RM id (1)
     Alignment# 2 for speaker           Error: extract_speaker can't locate RM id (3)
     Alignment# 3 for speaker           Error: extract_speaker can't locate RM id (4)
 ...
-    Alignment# 193 for speaker           Error: extract_speaker can't locate RM id (194)
-    Alignment# 194 for speaker           Error: extract_speaker can't locate RM id (195)
-    Alignment# 195 for speaker           
+    Alignment# 198 for speaker           Error: extract_speaker can't locate RM id (199)
+    Alignment# 199 for speaker           Error: extract_speaker can't locate RM id (200)
+    Alignment# 200 for speaker
 
                      SYSTEM SUMMARY PERCENTAGES by SPEAKER                      
 
       ,-----------------------------------------------------------------.
-      |                          google_nr.txt                          |
+      |                           google.txt                            |
       |-----------------------------------------------------------------|
       | SPKR   | # Snt  # Wrd | Corr    Sub    Del    Ins    Err  S.Err |
       |--------+--------------+-----------------------------------------|
-      |        |  195    1148 | 11.5   29.1   59.4   14.5  103.0   91.3 |
+      |        |  200    1153 | 34.1   20.8   45.1    0.8   66.7   83.0 |
       |=================================================================|
-      | Sum/Avg|  195    1148 | 11.5   29.1   59.4   14.5  103.0   91.3 |
+      | Sum/Avg|  200    1153 | 34.1   20.8   45.1    0.8   66.7   83.0 |
       |=================================================================|
-      |  Mean  |195.0  1148.0 | 11.5   29.1   59.4   14.5  103.0   91.3 |
+      |  Mean  |200.0  1153.0 | 34.1   20.8   45.1    0.8   66.7   83.0 |
       |  S.D.  |  0.0    0.0  |  0.0    0.0    0.0    0.0    0.0    0.0 |
-      | Median |195.0  1148.0 | 11.5   29.1   59.4   14.5  103.0   91.3 |
+      | Median |200.0  1153.0 | 34.1   20.8   45.1    0.8   66.7   83.0 |
       `-----------------------------------------------------------------'
+
 
 Successful Completion
 ```
 
 ## CloudASR
 ```
-[petr@hellmut result (master ✗)]$ sclite -r truth_nr.txt -h cloudasr_nr.txt -i rm 
+[petr@hellmut result (master ✗)]$ sclite -r truth.txt -h cloudasr.txt -i rm
 sclite: 2.10 TK Version 1.3
 Begin alignment of Ref File: 'truth_nr.txt' and Hyp File: 'cloudasr_nr.txt'
 Error: extract_speaker can't locate RM id (1)
@@ -53,25 +54,26 @@ Error: extract_speaker can't locate RM id (1)
     Alignment# 2 for speaker           Error: extract_speaker can't locate RM id (3)
     Alignment# 3 for speaker           Error: extract_speaker can't locate RM id (4)
 ...
-    Alignment# 193 for speaker           Error: extract_speaker can't locate RM id (194)
-    Alignment# 194 for speaker           Error: extract_speaker can't locate RM id (195)
-    Alignment# 195 for speaker           
+    Alignment# 198 for speaker           Error: extract_speaker can't locate RM id (199)
+    Alignment# 199 for speaker           Error: extract_speaker can't locate RM id (200)
+    Alignment# 200 for speaker
 
                      SYSTEM SUMMARY PERCENTAGES by SPEAKER                      
 
       ,-----------------------------------------------------------------.
-      |                         cloudasr_nr.txt                         |
+      |                          cloudasr.txt                           |
       |-----------------------------------------------------------------|
       | SPKR   | # Snt  # Wrd | Corr    Sub    Del    Ins    Err  S.Err |
       |--------+--------------+-----------------------------------------|
-      |        |  195    1148 | 19.7   42.1   38.2   40.2  120.6   90.3 |
+      |        |  200    1153 | 63.4   20.6   16.0    1.3   37.9   63.5 |
       |=================================================================|
-      | Sum/Avg|  195    1148 | 19.7   42.1   38.2   40.2  120.6   90.3 |
+      | Sum/Avg|  200    1153 | 63.4   20.6   16.0    1.3   37.9   63.5 |
       |=================================================================|
-      |  Mean  |195.0  1148.0 | 19.7   42.1   38.2   40.2  120.6   90.3 |
+      |  Mean  |200.0  1153.0 | 63.4   20.6   16.0    1.3   37.9   63.5 |
       |  S.D.  |  0.0    0.0  |  0.0    0.0    0.0    0.0    0.0    0.0 |
-      | Median |195.0  1148.0 | 19.7   42.1   38.2   40.2  120.6   90.3 |
+      | Median |200.0  1153.0 | 63.4   20.6   16.0    1.3   37.9   63.5 |
       `-----------------------------------------------------------------'
+
 
 Successful Completion
 ```
