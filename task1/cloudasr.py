@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
+''' Extract first 200 audios and save transcriptions by Google Web Speech and CloudASR into separate files.
+In addition, save the truth transcriptions.
+'''
 
 import json
 import logging
 import os
+import argparse
 
-try: # try to use python2 module
+try:  # try to use python2 module
     from urllib2 import Request, urlopen, URLError, HTTPError
-except ImportError: # otherwise, use python3 module
+except ImportError:  # otherwise, use python3 module
     from urllib.request import Request, urlopen
     from urllib.error import URLError, HTTPError
 
 import speech_recognition as sr
-from speech_recognition import RequestError, UnknownValueError, WaitTimeoutError, AudioData
+from speech_recognition import RequestError, UnknownValueError, AudioData
 
 
 __author__ = 'Petr Belohlavek'
@@ -41,7 +45,7 @@ class MyRecognizer(sr.Recognizer):
         try:
             response = urlopen(request)
         except HTTPError as e:
-            raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
+            raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code))))  # use getattr to be compatible with Python 2.6
         except URLError as e:
             raise RequestError("recognition connection failed: {0}".format(e.reason))
         response_text = response.read().decode("utf-8")
@@ -61,20 +65,19 @@ class MyRecognizer(sr.Recognizer):
         for entry in actual_result["alternative"]:
             if "transcript" in entry:
                 return entry["transcript"]
-        raise UnknownValueError() # no transcriptions available
+        raise UnknownValueError()  # no transcriptions available
 
 
 if __name__ == '__main__':
-    ''' Extract first 200 audios and save transcriptions by Google Web Speech and CloudASR into separate files.
-    In addition, save the truth transcriptions.
-    '''
+    parser = argparse.ArgumentParser(__doc__)
+    parser.add_argument('--data-root', default='data_voip_cs/test', help="Download and extract data_voip_cs.tgz from https://lindat.mff.cuni.cz/repository/xmlui/handle/11858/00-097C-0000-0023-4670-6")
     logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+    args = parser.parse_args()
+    data_root = args.data_root
 
     # r = sr.Recognizer()
     r = MyRecognizer()
     done = 1
-
-    data_root = "/home/petr/data_voip_cs/"
 
     with open('result/cloudasr.txt', 'w') as cloudasr_out,\
          open('result/google.txt', 'w') as google_out,\
@@ -86,11 +89,12 @@ if __name__ == '__main__':
 
             logging.info('Processing input %d', done)
 
-            with open("/home/petr/data_voip_cs/" + wav_name + '.trn', 'r') as trn_f,\
-                 sr.WavFile("/home/petr/data_voip_cs/" + wav_name) as source:
+            with open(os.path.join(data_root, wav_name + '.trn'), 'r') as trn_f,\
+                 sr.WavFile(os.path.join(data_root, wav_name)) as source:
 
                 trn = trn_f.read().lower()[:-1]
                 truth_out.write('{} ({})\n'.format(trn, done))
+                truth_out.flush()
 
                 audio = r.record(source)
 
@@ -98,35 +102,19 @@ if __name__ == '__main__':
                 try:
                     google_out.write('{} ({})\n'.format(r.recognize_google(audio, language='cs-CZ').lower(),
                                                         done))
+                    google_out.flush()
                     logging.info('\t\tSuccess')
                 except Exception:
                     logging.warning('\t\tFail')
                     google_out.write('({})\n'.format(done))
 
                 logging.info('\tTranslating by CloudASR')
-                try:
-                    cloudasr_out.write('{} ({})\n'.format(r.recognize_cloudasr(audio_data=audio,
-                                                                               language='kams-cs-super').lower(),
-                                                          done))
-                    logging.info('\t\tSuccess')
-                except Exception:
-                    logging.warning('\t\tFail')
-                    google_out.write('({})\n'.format(done))
+                cloudasr_out.write('{} ({})\n'.format(r.recognize_cloudasr(audio_data=audio,
+                                                                           language='kams-cs-super').lower(),
+                                                      done))
+                cloudasr_out.flush()
+                logging.info('\t\tSuccess')
 
             done += 1
 
     logging.info('Succeeded: %d', done)
-
-    # import tarfile
-    # with tarfile.open('/home/petr/data_voip_cs.tgz', 'r:gz') as archive:
-    #
-    #     for member in archive:
-    #         f_name = member.name
-    #         if done >= 200:
-    #             break
-    #
-    #         if f_name.split('.')[-1] == 'wav':
-    #             logging.info('Extracting .wav #%d: %s', done, done)
-    #             archive.extract(f_name, '/tmp/foo/')
-    #             archive.extract(f_name + '.trn', '/tmp/foo/')
-    #             done += 1
